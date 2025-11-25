@@ -18,6 +18,8 @@
                 components.Dispose();
             }
             base.Dispose(disposing);
+
+
         }
 
         #region Windows フォーム デザイナーで生成されたコード

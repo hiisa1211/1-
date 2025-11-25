@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Weather_Information_App
 {
-    internal class Home_screen
+    internal class Model
     {
     }
 }
