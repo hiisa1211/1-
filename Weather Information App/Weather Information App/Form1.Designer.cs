@@ -27,6 +27,7 @@
         private System.Windows.Forms.TextBox textBox1; 
         private System.Windows.Forms.Label label1;      
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.ListBox listBoxHistory;
 
         #region Windows フォーム デザイナーで生成されたコード
 
@@ -39,7 +40,8 @@
 
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();     
-            this.button1 = new System.Windows.Forms.Button();    
+            this.button1 = new System.Windows.Forms.Button();
+            
             this.SuspendLayout();
 
             // 
@@ -66,6 +68,16 @@
             this.button1.Size = new System.Drawing.Size(100, 25);
             this.button1.Text = "検索";
             this.button1.Click += new System.EventHandler(this.button1_Click);
+
+            //
+            //履歴
+            //
+            this.listBoxHistory = new System.Windows.Forms.ListBox();
+            this.listBoxHistory.Location = new System.Drawing.Point(20, 100);
+            this.listBoxHistory.Size = new System.Drawing.Size(310, 200);
+            this.listBoxHistory.SelectedIndexChanged += new System.EventHandler(this.listBoxHistory_SelectedIndexChanged);
+            this.Controls.Add(this.listBoxHistory);
+
 
             // 
             // Form1

@@ -3,13 +3,10 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Drawing.Text;
 using System.Linq;
-using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using static Weather_Information_App.Model;
 
 namespace Weather_Information_App
@@ -18,25 +15,48 @@ namespace Weather_Information_App
     {
         private readonly WeatherService _service;
 
-        
         public Form1()
         {
             InitializeComponent();
             _service = new WeatherService();
         }
+
+        // 共通検索メソッド
+        private void SearchCity(string city)
+        {
+            if (string.IsNullOrWhiteSpace(city)) return;
+
+            var request = new WeatherRequest { CityName = city };
+            WeatherResult result = _service.ProcessInput(request);
+            label1.Text = result.Message;
+        }
+
+        // ボタンクリック
         private void button1_Click(object sender, EventArgs e)
         {
-            // 入力を Model に詰める
-            var request = new WeatherRequest
-            {
-                CityName = textBox1.Text
-            };
+            string city = textBox1.Text;
+            if (string.IsNullOrWhiteSpace(city)) return;
 
-            // Service を呼ぶ
-            WeatherResult result = _service.ProcessInput(request);
+            // 検索履歴に追加
+            if (listBoxHistory.Items.Contains(city))
+                listBoxHistory.Items.Add(city);
 
-            // 結果を UI に反映
-            label1.Text = result.Message;
+            listBoxHistory.Items.Insert(0, city); // 先頭に追加
+
+            // 検索実行
+            SearchCity(city);
+        }
+
+        // 履歴クリック
+        private void listBoxHistory_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (listBoxHistory.SelectedItem == null) return;
+
+            string selectedCity = listBoxHistory.SelectedItem.ToString();
+            textBox1.Text = selectedCity;
+
+            // 検索実行
+            SearchCity(selectedCity);
         }
     }
 }
