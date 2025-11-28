@@ -9,7 +9,7 @@ namespace Weather_Information_App
     {
         private readonly string apiKey = "ここに自分のAPIキー"; // ←ここに取得したAPIキー
 
-        // ここを Form1 から呼びます
+        // 天気情報取得
         public async Task<WeatherResult> GetWeatherAsync(string cityName)
         {
             using (var client = new HttpClient())
