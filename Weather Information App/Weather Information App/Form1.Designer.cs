@@ -21,6 +21,12 @@
 
 
         }
+        
+        
+
+        private System.Windows.Forms.TextBox textBox1; 
+        private System.Windows.Forms.Label label1;      
+        private System.Windows.Forms.Button button1;
 
         #region Windows フォーム デザイナーで生成されたコード
 
@@ -30,10 +36,48 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Text = "Form1";
+
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();     
+            this.button1 = new System.Windows.Forms.Button();    
+            this.SuspendLayout();
+
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(20, 20);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(400, 25);
+            this.textBox1.TabIndex = 0;
+
+            // 
+            // label1
+            // 
+            this.label1.Location = new System.Drawing.Point(20, 60);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(300, 25);
+            this.label1.Text = ""; 
+
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(430, 20);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(100, 25);
+            this.button1.Text = "検索";
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+
+            // 
+            // Form1
+            // 
+            this.ClientSize = new System.Drawing.Size(852, 447);
+            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.label1);  
+            this.Controls.Add(this.button1);  
+            this.Name = "Form1";
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
         }
 
         #endregion

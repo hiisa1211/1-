@@ -6,7 +6,16 @@ using System.Threading.Tasks;
 
 namespace Weather_Information_App
 {
-    internal class Model
+    public  class Model
     {
+        public class WeatherRequest
+        {
+            public string CityName { get; set; }
+        }
+        
+        public class WeatherResult
+        {
+            public string Message { get; set; }
+        }
     }
 }
