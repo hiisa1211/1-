@@ -1,21 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Net.Http;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using static Weather_Information_App.Model;
 
 namespace Weather_Information_App
 {
     public class WeatherService
     {
-        public WeatherResult ProcessInput(WeatherRequest request)
+        private readonly string apiKey = "ここに自分のAPIキー"; // ←ここに取得したAPIキー
+
+        // ここを Form1 から呼びます
+        public async Task<WeatherResult> GetWeatherAsync(string cityName)
         {
-            return new WeatherResult
+            using (var client = new HttpClient())
             {
-                Message = $"入力: {request.CityName}"
-            };
+                string url = $"http://api.openweathermap.org/data/2.5/weather?q={cityName}&appid={apiKey}&units=metric&lang=ja";
+                var response = await client.GetStringAsync(url);
+                dynamic data = JsonConvert.DeserializeObject(response);
+
+                string description = data.weather[0].description;
+                double temp = data.main.temp;
+
+                return new WeatherResult
+                {
+                    Message = $"{cityName} の天気: {description}, 気温: {temp}℃"
+                };
+            }
         }
     }
-
 }

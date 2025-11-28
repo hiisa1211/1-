@@ -26,18 +26,17 @@ namespace Weather_Information_App
         }
 
         // 共通検索メソッド
-        private void SearchCity(string city)
+        private async Task SearchCity(string city)
         {
             if (string.IsNullOrWhiteSpace(city)) return;
 
-            var request = new WeatherRequest { CityName = city };
-            WeatherResult result = _service.ProcessInput(request);
+            WeatherResult result = await _service.GetWeatherAsync(city);
             label1.Text = result.Message;
         }
 
 
         // 検索処理（履歴追加＆検索）
-        private void PerformSearch(string city)
+        private async Task PerformSearch(string city)
         {
             if (string.IsNullOrWhiteSpace(city)) return;
 
@@ -47,31 +46,32 @@ namespace Weather_Information_App
 
             listBoxHistory.Items.Insert(0, city); // 最新を上に追加
 
-            SearchCity(city);
+            WeatherResult result = await _service.GetWeatherAsync(city);
+            label1.Text = result.Message;
         }
 
         // ボタンクリック
-        private void button1_Click(object sender, EventArgs e)
+        private async void button1_Click(object sender, EventArgs e)
         {
-            PerformSearch(textBox1.Text);
+            await PerformSearch(textBox1.Text);
         }
 
  
         
 
         // TextBoxでEnterキー押したとき
-        private void TextBox1_KeyDown(object sender, KeyEventArgs e)
+        private async void TextBox1_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {
-                PerformSearch(textBox1.Text);
+                await PerformSearch(textBox1.Text);
                 e.Handled = true;    // ビープ音防止
                 e.SuppressKeyPress = true;
             }
         }
 
         // 履歴クリック
-        private void listBoxHistory_SelectedIndexChanged(object sender, EventArgs e)
+        private async void listBoxHistory_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (listBoxHistory.SelectedItem == null) return;
 
@@ -79,7 +79,7 @@ namespace Weather_Information_App
             textBox1.Text = selectedCity;
 
             // 検索実行
-            SearchCity(selectedCity);
+            await SearchCity(selectedCity);
         }
     }
 }
