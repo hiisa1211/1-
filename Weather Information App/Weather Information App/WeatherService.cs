@@ -12,30 +12,44 @@ namespace Weather_Information_App
         // 天気情報取得
         public async Task<WeatherResult> GetWeatherAsync(string cityName)
         {
-            using (var client = new HttpClient())
+            try
             {
-                string url = $"http://api.openweathermap.org/data/2.5/weather?q={cityName}&appid={apiKey}&units=metric&lang=ja";
-                var response = await client.GetStringAsync(url);
-                dynamic data = JsonConvert.DeserializeObject(response);
-
-                // エラーコードチェック
-                if (data.cod != null && data.cod.ToString() != "200")
+                using (var client = new HttpClient())
                 {
-                    // APIが返すエラー
+                    string url =
+                        $"http://api.openweathermap.org/data/2.5/weather?q={cityName}&appid={apiKey}&units=metric&lang=ja";
+
+                    // ★ GetAsync を使うことで「存在しない都市」で例外にならない
+                    var response = await client.GetAsync(url);
+
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        return new WeatherResult
+                        {
+                            Message = $"都市「{cityName}」は見つかりませんでした。"
+                        };
+                    }
+
+                    string json = await response.Content.ReadAsStringAsync();
+                    dynamic data = JsonConvert.DeserializeObject(json);
+
+                    string description = data.weather[0].description;
+                    double temp = data.main.temp;
+
                     return new WeatherResult
                     {
-                        Message = $"都市「{cityName}」は見つかりませんでした。"
+                        Message = $"{cityName} の天気: {description}, 気温: {temp}℃"
                     };
                 }
-
-                string description = data.weather[0].description;
-                double temp = data.main.temp;
-
+            }
+            catch
+            {
                 return new WeatherResult
                 {
-                    Message = $"{cityName} の天気: {description}, 気温: {temp}℃"
+                    Message = "通信エラーが発生しました。"
                 };
             }
         }
+
     }
 }
