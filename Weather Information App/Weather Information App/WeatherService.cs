@@ -19,11 +19,12 @@ namespace Weather_Information_App
                     string url =
                         $"http://api.openweathermap.org/data/2.5/weather?q={cityName}&appid={apiKey}&units=metric&lang=ja";
 
-                    // ★ GetAsync を使うことで「存在しない都市」で例外にならない
                     var response = await client.GetAsync(url);
 
+                    // エラーコードチェック
                     if (!response.IsSuccessStatusCode)
                     {
+                        // APIが返すエラー
                         return new WeatherResult
                         {
                             Message = $"都市「{cityName}」は見つかりませんでした。"
