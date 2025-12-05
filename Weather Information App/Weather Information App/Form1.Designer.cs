@@ -66,7 +66,7 @@
 
             // listBoxHistory
             this.listBoxHistory = new System.Windows.Forms.ListBox();
-            this.listBoxHistory.Location = new System.Drawing.Point(20, 100);
+            this.listBoxHistory.Location = new System.Drawing.Point(350, 95);
             this.listBoxHistory.Size = new System.Drawing.Size(310, 200);
             this.Controls.Add(this.listBoxHistory);
 

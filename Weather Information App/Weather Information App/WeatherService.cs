@@ -1,4 +1,6 @@
-﻿using System.Net.Http;
+﻿using System.Collections.Generic;
+using System.Net.Http;
+using System.Security.Policy;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using static Weather_Information_App.Model;
@@ -49,6 +51,46 @@ namespace Weather_Information_App
                 {
                     Message = "通信エラーが発生しました。"
                 };
+            }
+        }
+        public async Task<List<WeatherResult>> GetHourlyForecastAsync(string cityName)
+        {
+            try
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    string url = $"http://api.openweathermap.org/data/2.5/forecast?q={cityName}&appid={apiKey}&units=metric&lang=ja";
+
+                    var response = await client.GetAsync(url);
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        return new List<WeatherResult> { new WeatherResult { Message = $"都市「{cityName}」は見つかりませんでした。" } };
+                    }
+
+                    string json = await response.Content.ReadAsStringAsync();
+                    dynamic data = JsonConvert.DeserializeObject(json);
+
+                    var list = new List<WeatherResult>();
+
+                    foreach (var item in data.list)
+                    {
+                        string dt = item.dt_txt; // 時間
+                        string desc = item.weather[0].description;
+                        double temp = item.main.temp;
+
+                        list.Add(new WeatherResult
+                        {
+                            Message = $"{dt}: {desc}, 気温: {temp}℃"
+                        });
+                    }
+
+                    return list;
+                }
+
+            }
+            catch
+            {
+                return new List<WeatherResult> { new WeatherResult { Message = "通信エラーが発生しました。" } };
             }
         }
 
