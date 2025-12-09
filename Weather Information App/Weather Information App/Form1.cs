@@ -34,7 +34,7 @@ namespace Weather_Information_App
             textBox1.KeyDown += TextBox1_KeyDown;
             listBoxHistory.SelectedIndexChanged += listBoxHistory_SelectedIndexChanged;
 
-            // ★ ListBox をフォームに追加（3時間ごとの天気表示用）
+            // ListBox をフォームに追加（3時間ごとの天気表示用）
             listBoxForecast = new ListBox
             {
                 Name = "listBoxForecast",
