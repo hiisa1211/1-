@@ -16,6 +16,7 @@ namespace Weather_Information_App
         public class WeatherResult
         {
             public string Message { get; set; }
+            public string IconUrl { get; set; }
         }
     }
 }

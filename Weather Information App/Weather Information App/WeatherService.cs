@@ -39,6 +39,16 @@ namespace Weather_Information_App
                     string description = data.weather[0].description;
                     double temp = data.main.temp;
 
+                    string iconCode = data.weather[0].icon; // "01d" などが入る
+                    string iconUrl = $"https://openweathermap.org/img/wn/{iconCode}@2x.png";
+
+                    return new WeatherResult
+                    {
+                        Message = $"{cityName} の天気: {description}, 気温: {temp}℃",
+                        IconUrl = iconUrl
+                    };
+
+
                     return new WeatherResult
                     {
                         Message = $"{cityName} の天気: {description}, 気温: {temp}℃"
@@ -77,6 +87,7 @@ namespace Weather_Information_App
                         string dt = item.dt_txt; // 時間
                         string desc = item.weather[0].description;
                         double temp = item.main.temp;
+
 
                         list.Add(new WeatherResult
                         {

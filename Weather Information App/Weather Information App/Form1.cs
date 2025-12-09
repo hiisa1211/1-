@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static Weather_Information_App.Model;
@@ -27,6 +29,9 @@ namespace Weather_Information_App
         public Form1()
         {
             InitializeComponent();
+            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox1.BackColor = Color.LightBlue; // 背景色を変えて見やすく
+
             _service = new WeatherService();
 
             SetupAutoComplete();
@@ -142,6 +147,30 @@ namespace Weather_Information_App
             listBoxHistory.Items.Insert(0, cityOnly);
 
             await SearchCity(cityOnly);
+
+            WeatherResult result = await _service.GetWeatherAsync(cityOnly);
+            label1.Text = result.Message;
+
+            // アイコン表示処理
+            if (!string.IsNullOrEmpty(result.IconUrl))
+            {
+                try
+                {
+                    using (var client = new HttpClient())
+                    {
+                        var iconBytes = await client.GetByteArrayAsync(result.IconUrl);
+                        using (var ms = new MemoryStream(iconBytes))
+                        {
+                            pictureBox1.Image = Image.FromStream(ms);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"画像取得エラー: {ex.Message}");
+                }
+
+            }
         }
 
         // ボタンクリック
@@ -170,6 +199,11 @@ namespace Weather_Information_App
             textBox1.Text = selectedCity;
 
             await SearchCity(selectedCity);
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

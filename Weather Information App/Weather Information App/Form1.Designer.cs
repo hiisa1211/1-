@@ -28,6 +28,7 @@
         private System.Windows.Forms.Label label1;      
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.ListBox listBoxHistory;
+        private System.Windows.Forms.PictureBox pictureBox1;
 
         #region Windows フォーム デザイナーで生成されたコード
 
@@ -37,48 +38,65 @@
         /// </summary>
         private void InitializeComponent()
         {
-
             this.textBox1 = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();     
-            this.button1 = new System.Windows.Forms.Button();
-            
-            this.SuspendLayout();
-
-            // textBox1
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox1.Location = new System.Drawing.Point(20, 20);
-            this.textBox1.Size = new System.Drawing.Size(400, 25);
-            this.Controls.Add(this.textBox1);
-
-            // label1
             this.label1 = new System.Windows.Forms.Label();
-            this.label1.Location = new System.Drawing.Point(20, 60);
-            this.label1.Size = new System.Drawing.Size(300, 25);
-            this.Controls.Add(this.label1);
-
-            // button1
             this.button1 = new System.Windows.Forms.Button();
+            this.listBoxHistory = new System.Windows.Forms.ListBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.SuspendLayout();
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(20, 20);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(400, 25);
+            this.textBox1.TabIndex = 0;
+            // 
+            // label1
+            // 
+            this.label1.Location = new System.Drawing.Point(20, 60);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(300, 25);
+            this.label1.TabIndex = 1;
+            // 
+            // button1
+            // 
             this.button1.Location = new System.Drawing.Point(430, 20);
+            this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(100, 25);
+            this.button1.TabIndex = 2;
             this.button1.Text = "検索";
             this.button1.Click += new System.EventHandler(this.button1_Click);
-            this.Controls.Add(this.button1);
-
+            // 
             // listBoxHistory
-            this.listBoxHistory = new System.Windows.Forms.ListBox();
-            this.listBoxHistory.Location = new System.Drawing.Point(350, 95);
-            this.listBoxHistory.Size = new System.Drawing.Size(310, 200);
-            this.Controls.Add(this.listBoxHistory);
-
-
+            // 
+            this.listBoxHistory.ItemHeight = 18;
+            this.listBoxHistory.Location = new System.Drawing.Point(502, 89);
+            this.listBoxHistory.Name = "listBoxHistory";
+            this.listBoxHistory.Size = new System.Drawing.Size(310, 184);
+            this.listBoxHistory.TabIndex = 3;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.pictureBox1.Location = new System.Drawing.Point(380, 73);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(105, 92);
+            this.pictureBox1.TabIndex = 4;
+            this.pictureBox1.TabStop = false;
+            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
             // Form1
             // 
             this.ClientSize = new System.Drawing.Size(852, 447);
+            this.Controls.Add(this.listBoxHistory);
+            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.textBox1);
-            this.Controls.Add(this.label1);  
-            this.Controls.Add(this.button1);  
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.button1);
             this.Name = "Form1";
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
