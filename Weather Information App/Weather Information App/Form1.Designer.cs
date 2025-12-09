@@ -55,7 +55,7 @@
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(20, 60);
+            this.label1.Location = new System.Drawing.Point(20, 150);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(300, 25);
             this.label1.TabIndex = 1;
@@ -72,7 +72,7 @@
             // listBoxHistory
             // 
             this.listBoxHistory.ItemHeight = 18;
-            this.listBoxHistory.Location = new System.Drawing.Point(502, 89);
+            this.listBoxHistory.Location = new System.Drawing.Point(400, 190);
             this.listBoxHistory.Name = "listBoxHistory";
             this.listBoxHistory.Size = new System.Drawing.Size(310, 184);
             this.listBoxHistory.TabIndex = 3;
@@ -80,7 +80,7 @@
             // pictureBox1
             // 
             this.pictureBox1.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.pictureBox1.Location = new System.Drawing.Point(380, 73);
+            this.pictureBox1.Location = new System.Drawing.Point(20, 70);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(105, 92);
             this.pictureBox1.TabIndex = 4;

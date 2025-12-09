@@ -49,10 +49,7 @@ namespace Weather_Information_App
                     };
 
 
-                    return new WeatherResult
-                    {
-                        Message = $"{cityName} の天気: {description}, 気温: {temp}℃"
-                    };
+                    
                 }
             }
             catch
