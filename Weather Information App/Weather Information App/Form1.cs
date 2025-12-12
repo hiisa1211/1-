@@ -141,12 +141,21 @@ namespace Weather_Information_App
                 return;
             }
 
+            // 履歴管理
             if (listBoxHistory.Items.Contains(cityOnly))
                 listBoxHistory.Items.Remove(cityOnly);
 
             listBoxHistory.Items.Insert(0, cityOnly);
 
+            // 天気取得（現在＋予報）
             await SearchCity(cityOnly);
+
+            // 今日の最高 / 最低気温
+            var (minTemp, maxTemp) = await _service.GetTodayMinMaxAsync(cityOnly);
+            labelMinMax.Text = $"今日の最高: {maxTemp:F1}℃ / 最低: {minTemp:F1}℃";
+
+            //  最終更新時刻を表示 
+            labelUpdateTime.Text = $"最終更新: {DateTime.Now:yyyy/MM/dd HH:mm:ss}";
 
             WeatherResult result = await _service.GetWeatherAsync(cityOnly);
             label1.Text = result.Message;

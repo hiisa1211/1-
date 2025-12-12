@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Security.Policy;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 using static Weather_Information_App.Model;
 
 namespace Weather_Information_App
@@ -101,6 +102,55 @@ namespace Weather_Information_App
                 return new List<WeatherResult> { new WeatherResult { Message = "通信エラーが発生しました。" } };
             }
         }
+        public async Task<(double minTemp, double maxTemp)> GetTodayMinMaxAsync(string cityName)
+        {
+            try
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    string url = $"http://api.openweathermap.org/data/2.5/forecast?q={cityName}&appid={apiKey}&units=metric&lang=ja";
+
+                    var response = await client.GetAsync(url);
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        return (0, 0);
+                    }
+
+                    string json = await response.Content.ReadAsStringAsync();
+                    dynamic data = JsonConvert.DeserializeObject(json);
+
+                    double? min = null;
+                    double? max = null;
+
+                    DateTime today = DateTime.Today;
+
+                    foreach (var item in data.list)
+                    {
+                        DateTime dt = DateTime.Parse((string)item.dt_txt);
+
+                        if (dt.Date == today)
+                        {
+                            double temp = item.main.temp;
+
+                            if (min == null || temp < min) min = temp;
+                            if (max == null || temp > max) max = temp;
+                        }
+                    }
+
+                    if (min == null || max == null)
+                    {
+                        return (0, 0);
+                    }
+
+                    return (min.Value, max.Value);
+                }
+            }
+            catch
+            {
+                return (0, 0);
+            }
+        }
+
 
     }
 }

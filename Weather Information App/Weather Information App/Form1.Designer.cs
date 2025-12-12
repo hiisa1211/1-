@@ -29,6 +29,10 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.ListBox listBoxHistory;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Label labelUpdateTime;   // ←これを追加
+        private System.Windows.Forms.Label labelMinMax;
+
+
 
         #region Windows フォーム デザイナーで生成されたコード
 
@@ -43,6 +47,7 @@
             this.button1 = new System.Windows.Forms.Button();
             this.listBoxHistory = new System.Windows.Forms.ListBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.labelUpdateTime = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -80,12 +85,28 @@
             // pictureBox1
             // 
             this.pictureBox1.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.pictureBox1.Location = new System.Drawing.Point(20, 70);
+            this.pictureBox1.Location = new System.Drawing.Point(326, 65);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(105, 92);
             this.pictureBox1.TabIndex = 4;
             this.pictureBox1.TabStop = false;
             this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
+            // 
+            // labelMinMax
+            // 
+            this.labelMinMax = new System.Windows.Forms.Label();
+            this.labelMinMax.Location = new System.Drawing.Point(20, 210);
+            this.labelMinMax.Name = "labelMinMax";
+            this.labelMinMax.Size = new System.Drawing.Size(350, 25);
+            this.labelMinMax.Text = "";
+
+            // 
+            // labelUpdateTime
+            // 
+            this.labelUpdateTime.Location = new System.Drawing.Point(20, 180);
+            this.labelUpdateTime.Name = "labelUpdateTime";
+            this.labelUpdateTime.Size = new System.Drawing.Size(300, 25);
+            this.labelUpdateTime.TabIndex = 5;
             // 
             // Form1
             // 
@@ -95,6 +116,8 @@
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.button1);
+            this.Controls.Add(this.labelMinMax);
+            this.Controls.Add(this.labelUpdateTime);
             this.Name = "Form1";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
