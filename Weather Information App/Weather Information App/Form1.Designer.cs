@@ -29,7 +29,7 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.ListBox listBoxHistory;
         private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.Label labelUpdateTime;   // ←これを追加
+        private System.Windows.Forms.Label labelUpdateTime; 
         private System.Windows.Forms.Label labelMinMax;
 
 
@@ -51,21 +51,21 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
-            // textBox1
+            // textBox1 県とか入れる場所
             // 
             this.textBox1.Location = new System.Drawing.Point(20, 20);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(400, 25);
             this.textBox1.TabIndex = 0;
             // 
-            // label1
+            // label1 これからの天気
             // 
-            this.label1.Location = new System.Drawing.Point(20, 200);
+            this.label1.Location = new System.Drawing.Point(20, 240);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(300, 25);
             this.label1.TabIndex = 1;
             // 
-            // button1
+            // button1　検索ボタン
             // 
             this.button1.Location = new System.Drawing.Point(430, 20);
             this.button1.Name = "button1";
@@ -74,42 +74,42 @@
             this.button1.Text = "検索";
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // listBoxHistory
+            // listBoxHistory 履歴
             // 
             this.listBoxHistory.ItemHeight = 18;
-            this.listBoxHistory.Location = new System.Drawing.Point(400, 190);
+            this.listBoxHistory.Location = new System.Drawing.Point(400, 50);
             this.listBoxHistory.Name = "listBoxHistory";
             this.listBoxHistory.Size = new System.Drawing.Size(310, 184);
             this.listBoxHistory.TabIndex = 3;
             // 
-            // pictureBox1
+            // pictureBox1 画像
             // 
             this.pictureBox1.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.pictureBox1.Location = new System.Drawing.Point(326, 65);
+            this.pictureBox1.Location = new System.Drawing.Point(20, 65);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(105, 92);
             this.pictureBox1.TabIndex = 4;
             this.pictureBox1.TabStop = false;
             this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
-            // labelMinMax
+            // labelMinMax 最高気温最低気温
             // 
             this.labelMinMax = new System.Windows.Forms.Label();
-            this.labelMinMax.Location = new System.Drawing.Point(20, 210);
+            this.labelMinMax.Location = new System.Drawing.Point(20, 180);
             this.labelMinMax.Name = "labelMinMax";
             this.labelMinMax.Size = new System.Drawing.Size(350, 25);
             this.labelMinMax.Text = "";
             // 
-            // labelUpdateTime
+            // labelUpdateTime 更新時間
             // 
-            this.labelUpdateTime.Location = new System.Drawing.Point(20, 180);
+            this.labelUpdateTime.Location = new System.Drawing.Point(20, 210);
             this.labelUpdateTime.Name = "labelUpdateTime";
             this.labelUpdateTime.Size = new System.Drawing.Size(300, 25);
             this.labelUpdateTime.TabIndex = 5;
             // 
             // Form1
             // 
-            this.ClientSize = new System.Drawing.Size(852, 447);
+            this.ClientSize = new System.Drawing.Size(900, 500);
             this.Controls.Add(this.listBoxHistory);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.textBox1);
