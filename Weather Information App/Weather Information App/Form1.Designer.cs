@@ -34,7 +34,7 @@
 
 
 
-        #region Windows フォーム デザイナーで生成されたコード
+        //Windows フォーム デザイナーで生成されたコード
 
         /// <summary>
         /// デザイナー サポートに必要なメソッドです。このメソッドの内容を
@@ -60,7 +60,7 @@
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(20, 150);
+            this.label1.Location = new System.Drawing.Point(20, 200);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(300, 25);
             this.label1.TabIndex = 1;
@@ -99,7 +99,6 @@
             this.labelMinMax.Name = "labelMinMax";
             this.labelMinMax.Size = new System.Drawing.Size(350, 25);
             this.labelMinMax.Text = "";
-
             // 
             // labelUpdateTime
             // 
@@ -125,7 +124,7 @@
 
         }
 
-        #endregion
+        
     }
 }
 

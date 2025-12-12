@@ -12,6 +12,7 @@ namespace Weather_Information_App
 {
     public partial class Form1 : Form
     {
+        //WeatherService の生成
         private readonly WeatherService _service;
 
         private readonly string[] prefectures = new[]
