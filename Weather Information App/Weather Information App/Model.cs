@@ -12,11 +12,16 @@ namespace Weather_Information_App
         {
             public string CityName { get; set; }
         }
-        
+
         public class WeatherResult
         {
             public string Message { get; set; }
             public string IconUrl { get; set; }
+
+            public DateTime DateTime { get; set; }
+            public string Description { get; set; }
+            public double Temperature { get; set; }
         }
+
     }
 }

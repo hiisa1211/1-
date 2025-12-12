@@ -50,6 +50,16 @@ namespace Weather_Information_App
                 Left = label1.Left
             };
             this.Controls.Add(listBoxForecast);
+            flowForecastPanel = new FlowLayoutPanel()
+            {
+                Location = new Point(20, 260),
+                Size = new Size(800, 200),
+                FlowDirection = FlowDirection.LeftToRight,
+                WrapContents = false,     // 折り返さない（横スクロール）
+                AutoScroll = true
+            };
+
+            this.Controls.Add(flowForecastPanel);
         }
 
         private ListBox listBoxForecast;
@@ -128,6 +138,62 @@ namespace Weather_Information_App
             {
                 listBoxForecast.Items.Add(f.Message);
             }
+            // 3時間ごとの予報
+
+
+            foreach (var f in forecasts)
+            {
+                // APIから直接取り出した DateTime / Description / Temperature を使用
+                DateTime dt = f.DateTime;
+                string weather = f.Description;
+                string temp = $"{f.Temperature}℃";
+
+                Panel card = new Panel()
+                {
+                    Width = 140,
+                    Height = 120,
+                    BorderStyle = BorderStyle.FixedSingle,
+                    Margin = new Padding(5),
+                    BackColor = Color.WhiteSmoke
+                };
+
+                Label lblDate = new Label()
+                {
+                    Text = dt.ToString("yyyy/MM/dd"),
+                    Location = new Point(10, 10),
+                    AutoSize = true
+                };
+
+                Label lblTime = new Label()
+                {
+                    Text = dt.ToString("HH:mm"),
+                    Location = new Point(10, 30),
+                    AutoSize = true
+                };
+
+                Label lblWeather = new Label()
+                {
+                    Text = weather,
+                    Location = new Point(10, 50),
+                    AutoSize = true
+                };
+
+                Label lblTemp = new Label()
+                {
+                    Text = temp,
+                    Location = new Point(10, 70),
+                    AutoSize = true
+                };
+
+                card.Controls.Add(lblDate);
+                card.Controls.Add(lblTime);
+                card.Controls.Add(lblWeather);
+                card.Controls.Add(lblTemp);
+
+                flowForecastPanel.Controls.Add(card);
+            }
+
+
         }
 
 

@@ -1,4 +1,6 @@
-﻿namespace Weather_Information_App
+﻿using System.Windows.Forms;
+
+namespace Weather_Information_App
 {
     partial class Form1
     {
@@ -31,6 +33,8 @@
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Label labelUpdateTime; 
         private System.Windows.Forms.Label labelMinMax;
+        private FlowLayoutPanel flowForecastPanel;
+
 
 
 

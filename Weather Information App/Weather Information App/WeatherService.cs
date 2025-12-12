@@ -82,16 +82,19 @@ namespace Weather_Information_App
 
                     foreach (var item in data.list)
                     {
-                        string dt = item.dt_txt; // 時間
+                        DateTime dt = DateTime.Parse((string)item.dt_txt);
                         string desc = item.weather[0].description;
                         double temp = item.main.temp;
 
-
                         list.Add(new WeatherResult
                         {
+                            DateTime = dt,
+                            Description = desc,
+                            Temperature = temp,
                             Message = $"{dt}: {desc}, 気温: {temp}℃"
                         });
                     }
+
 
                     return list;
                 }
