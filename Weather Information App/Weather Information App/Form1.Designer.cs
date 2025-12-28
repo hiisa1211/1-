@@ -64,9 +64,9 @@ namespace Weather_Information_App
             // 
             // label1 これからの天気
             // 
-            this.label1.Location = new System.Drawing.Point(20, 240);
+            this.label1.Location = new System.Drawing.Point(750, 20);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(300, 25);
+            this.label1.Size = new System.Drawing.Size(300, 10);
             this.label1.TabIndex = 1;
             // 
             // button1　検索ボタン
@@ -113,7 +113,7 @@ namespace Weather_Information_App
             // 
             // Form1
             // 
-            this.ClientSize = new System.Drawing.Size(900, 500);
+            this.ClientSize = new System.Drawing.Size(1200, 600);
             this.Controls.Add(this.listBoxHistory);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.textBox1);

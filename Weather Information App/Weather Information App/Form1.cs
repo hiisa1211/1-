@@ -53,10 +53,11 @@ namespace Weather_Information_App
             flowForecastPanel = new FlowLayoutPanel()
             {
                 Location = new Point(20, 260),
-                Size = new Size(800, 200),
+                Size = new Size(1200, 200),//どこまで表示するか
                 FlowDirection = FlowDirection.LeftToRight,
-                WrapContents = false,     // 折り返さない（横スクロール）
+                WrapContents = false,     //（スクロールするかしないか）
                 AutoScroll = true
+                //間違ってなかったらここに画像追加（多分？）
             };
 
             this.Controls.Add(flowForecastPanel);
@@ -131,25 +132,6 @@ namespace Weather_Information_App
             WeatherResult current = await _service.GetWeatherAsync(cityOnly);
             label1.Text = current.Message;
 
-            if (!string.IsNullOrEmpty(current.IconUrl))
-            {
-                try
-                {
-                    using (var client = new HttpClient())
-                    {
-                        var iconBytes = await client.GetByteArrayAsync(current.IconUrl);
-                        using (var ms = new MemoryStream(iconBytes))
-                        {
-                            pictureBox1.Image = Image.FromStream(ms);
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"画像取得エラー: {ex.Message}");
-                }
-            }
-
             // 3時間ごとの予報
             var forecasts = await _service.GetHourlyForecastAsync(cityOnly);
             listBoxForecast.Items.Clear();
@@ -157,7 +139,7 @@ namespace Weather_Information_App
             {
                 listBoxForecast.Items.Add(f.Message);
             }
-            // 3時間ごとの予報
+            
 
 
             foreach (var f in forecasts)
@@ -238,20 +220,34 @@ namespace Weather_Information_App
 
             // 今日の最高 / 最低気温
             var (minTemp, maxTemp) = await _service.GetTodayMinMaxAsync(cityOnly);
-            if (minTemp.HasValue && maxTemp.HasValue)
-            {
-                // 値がちゃんと取れたとき
-                labelMinMax.Text = $"今日の最高: {maxTemp.Value:F1}℃ / 最低: {minTemp.Value:F1}℃";
-            }
-            else
-            {
-                // 取れなかったとき
-                labelMinMax.Text = "今日の最高・最低は取得できませんでした。";
-            }
+            labelMinMax.Text = $"今日の最高: {maxTemp:F1}℃ / 最低: {minTemp:F1}℃";
 
             //  最終更新時刻を表示 
             labelUpdateTime.Text = $"最終更新: {DateTime.Now:yyyy/MM/dd HH:mm:ss}";
 
+            WeatherResult result = await _service.GetWeatherAsync(cityOnly);
+            label1.Text = result.Message;
+
+            // アイコン表示処理
+            if (!string.IsNullOrEmpty(result.IconUrl))
+            {
+                try
+                {
+                    using (var client = new HttpClient())
+                    {
+                        var iconBytes = await client.GetByteArrayAsync(result.IconUrl);
+                        using (var ms = new MemoryStream(iconBytes))
+                        {
+                            pictureBox1.Image = Image.FromStream(ms);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"画像取得エラー: {ex.Message}");
+                }
+
+            }
         }
 
         // ボタンクリック
