@@ -113,7 +113,7 @@ namespace Weather_Information_App
             // 
             // Form1
             // 
-            this.ClientSize = new System.Drawing.Size(1200, 600);
+            this.ClientSize = new System.Drawing.Size(750, 500);
             this.Controls.Add(this.listBoxHistory);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.textBox1);
