@@ -134,6 +134,32 @@ namespace Weather_Information_App
             // 現在の天気
             WeatherResult current = await _service.GetWeatherAsync(cityOnly);
             label1.Text = current.Message;
+            // 現在の天気アイコン（PerformSearch から移動）
+            if (!string.IsNullOrEmpty(current.IconUrl))
+            {
+                try
+                {
+                    using (var client = new HttpClient())
+                    {
+                        var iconBytes = await client.GetByteArrayAsync(current.IconUrl);
+                        using (var ms = new MemoryStream(iconBytes))
+                        using (var img = Image.FromStream(ms))
+                        {
+                            // Stream を閉じても表示が安定するように Clone
+                            pictureBox1.Image = (Image)img.Clone();
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"画像取得エラー: {ex.Message}");
+                }
+            }
+            else
+            {
+                pictureBox1.Image = null;
+            }
+
 
             // 3時間ごとの予報
             var forecasts = await _service.GetHourlyForecastAsync(cityOnly);
@@ -158,8 +184,36 @@ namespace Weather_Information_App
                     Height = 120,
                     BorderStyle = BorderStyle.FixedSingle,
                     Margin = new Padding(5),
-                    BackColor = Color.WhiteSmoke
+                    BackColor = Color.White
                 };
+
+                PictureBox pbIcon = new PictureBox()
+                {
+                    Location = new Point(80, 10),   // 右上あたり
+                    Size = new Size(48, 48),
+                    SizeMode = PictureBoxSizeMode.Zoom
+                };
+
+                if (!string.IsNullOrEmpty(f.IconUrl))
+                {
+                    try
+                    {
+                        using (var client = new HttpClient())
+                        {
+                            var bytes = await client.GetByteArrayAsync(f.IconUrl);
+                            using (var ms = new MemoryStream(bytes))
+                            {
+                                pbIcon.Image = Image.FromStream(ms);
+                            }
+                        }
+                    }
+                    catch
+                    {
+                        // 失敗しても何もしない（枠だけ表示）
+                    }
+                }
+
+
 
                 Label lblDate = new Label()
                 {
@@ -193,6 +247,7 @@ namespace Weather_Information_App
                 card.Controls.Add(lblTime);
                 card.Controls.Add(lblWeather);
                 card.Controls.Add(lblTemp);
+                card.Controls.Add(pbIcon);
 
                 flowForecastPanel.Controls.Add(card);
             }
@@ -228,29 +283,7 @@ namespace Weather_Information_App
             //  最終更新時刻を表示 
             labelUpdateTime.Text = $"最終更新: {DateTime.Now:yyyy/MM/dd HH:mm:ss}";
 
-            WeatherResult result = await _service.GetWeatherAsync(cityOnly);
-            label1.Text = result.Message;
-
-            // アイコン表示処理
-            if (!string.IsNullOrEmpty(result.IconUrl))
-            {
-                try
-                {
-                    using (var client = new HttpClient())
-                    {
-                        var iconBytes = await client.GetByteArrayAsync(result.IconUrl);
-                        using (var ms = new MemoryStream(iconBytes))
-                        {
-                            pictureBox1.Image = Image.FromStream(ms);
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"画像取得エラー: {ex.Message}");
-                }
-
-            }
+            
         }
 
         // ボタンクリック

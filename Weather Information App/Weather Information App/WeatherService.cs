@@ -86,12 +86,18 @@ namespace Weather_Information_App
                         string desc = item.weather[0].description;
                         double temp = item.main.temp;
 
+                        // ★ 追加：アイコンコードとURL
+                        string iconCode = item.weather[0].icon;
+                        string iconUrl = $"https://openweathermap.org/img/wn/{iconCode}@2x.png";
+
+
                         list.Add(new WeatherResult
                         {
                             DateTime = dt,
                             Description = desc,
                             Temperature = temp,
-                            Message = $"{dt}: {desc}, 気温: {temp}℃"
+                            Message = $"{dt}: {desc}, 気温: {temp}℃",
+                            IconUrl = iconUrl
                         });
                     }
 
