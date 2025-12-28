@@ -41,7 +41,7 @@ namespace Weather_Information_App
             listBoxHistory.SelectedIndexChanged += listBoxHistory_SelectedIndexChanged;
 
             // ListBox をフォームに追加（3時間ごとの天気表示用）
-            listBoxForecast = new ListBox
+            /*listBoxForecast = new ListBox
             {
                 Name = "listBoxForecast",
                 Width = 300,
@@ -49,7 +49,7 @@ namespace Weather_Information_App
                 Top = label1.Bottom + 10,  // label1 の下に配置
                 Left = label1.Left
             };
-            this.Controls.Add(listBoxForecast);
+            this.Controls.Add(listBoxForecast);*/
             flowForecastPanel = new FlowLayoutPanel()
             {
                 Location = new Point(20, 260),
@@ -63,7 +63,7 @@ namespace Weather_Information_App
             this.Controls.Add(flowForecastPanel);
         }
 
-        private ListBox listBoxForecast;
+        //private ListBox listBoxForecast;
 
         // 入力から市区町村名を抽出
         private string ExtractCityName(string input)
@@ -121,6 +121,9 @@ namespace Weather_Information_App
         private async Task SearchCity(string city)
         {
             string cityOnly = ExtractCityName(city);
+            //追加
+            flowForecastPanel.Controls.Clear();
+
 
             if (string.IsNullOrWhiteSpace(cityOnly))
             {
@@ -134,11 +137,11 @@ namespace Weather_Information_App
 
             // 3時間ごとの予報
             var forecasts = await _service.GetHourlyForecastAsync(cityOnly);
-            listBoxForecast.Items.Clear();
+            /*listBoxForecast.Items.Clear();
             foreach (var f in forecasts)
             {
                 listBoxForecast.Items.Add(f.Message);
-            }
+            }*/
             
 
 

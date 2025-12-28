@@ -64,7 +64,7 @@ namespace Weather_Information_App
             // 
             // label1 これからの天気
             // 
-            this.label1.Location = new System.Drawing.Point(750, 20);
+            this.label1.Location = new System.Drawing.Point(150, 80);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(300, 10);
             this.label1.TabIndex = 1;
