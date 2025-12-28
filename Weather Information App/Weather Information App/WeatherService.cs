@@ -105,7 +105,7 @@ namespace Weather_Information_App
                 return new List<WeatherResult> { new WeatherResult { Message = "通信エラーが発生しました。" } };
             }
         }
-        public async Task<(double minTemp, double maxTemp)> GetTodayMinMaxAsync(string cityName)
+        public async Task<(double? minTemp, double? maxTemp)> GetTodayMinMaxAsync(string cityName)
         {
             try
             {
@@ -116,7 +116,7 @@ namespace Weather_Information_App
                     var response = await client.GetAsync(url);
                     if (!response.IsSuccessStatusCode)
                     {
-                        return (0, 0);
+                        return (null, null);
                     }
 
                     string json = await response.Content.ReadAsStringAsync();
@@ -142,7 +142,7 @@ namespace Weather_Information_App
 
                     if (min == null || max == null)
                     {
-                        return (0, 0);
+                        return (null, null);
                     }
 
                     return (min.Value, max.Value);
@@ -150,7 +150,7 @@ namespace Weather_Information_App
             }
             catch
             {
-                return (0, 0);
+                return (null, null);
             }
         }
 
