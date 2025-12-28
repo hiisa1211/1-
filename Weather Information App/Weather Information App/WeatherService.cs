@@ -88,6 +88,13 @@ namespace Weather_Information_App
 
                         // ★ 追加：アイコンコードとURL
                         string iconCode = item.weather[0].icon;
+
+                        // ★ 晴れ系は昼アイコンに統一
+                        if (iconCode.StartsWith("01") || iconCode.StartsWith("02"))
+                        {
+                            iconCode = iconCode.Substring(0, 2) + "d";
+                        }
+
                         string iconUrl = $"https://openweathermap.org/img/wn/{iconCode}@2x.png";
 
 
