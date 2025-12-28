@@ -90,7 +90,9 @@ namespace Weather_Information_App
                         string iconCode = item.weather[0].icon;
 
                         // ★ 晴れ系は昼アイコンに統一
-                        if (iconCode.StartsWith("01") || iconCode.StartsWith("02"))
+                        if (iconCode.StartsWith("01") ||
+                            iconCode.StartsWith("02") ||
+                            iconCode.StartsWith("10"))
                         {
                             iconCode = iconCode.Substring(0, 2) + "d";
                         }
