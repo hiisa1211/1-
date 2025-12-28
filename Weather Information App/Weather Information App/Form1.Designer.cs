@@ -62,11 +62,11 @@ namespace Weather_Information_App
             this.textBox1.Size = new System.Drawing.Size(400, 25);
             this.textBox1.TabIndex = 0;
             // 
-            // label1 これからの天気
+            // 現在の天気
             // 
             this.label1.Location = new System.Drawing.Point(150, 80);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(300, 10);
+            this.label1.Size = new System.Drawing.Size(300, 20);
             this.label1.TabIndex = 1;
             // 
             // button1　検索ボタン
