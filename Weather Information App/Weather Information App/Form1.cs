@@ -30,6 +30,10 @@ namespace Weather_Information_App
         public Form1()
         {
             InitializeComponent();
+
+            // ★ フォームサイズを広げる（予報が見切れないように）
+            this.ClientSize = new Size(1300, 550);
+
             pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox1.BackColor = Color.LightBlue; // 背景色を変えて見やすく
 
@@ -54,10 +58,12 @@ namespace Weather_Information_App
             flowForecastPanel = new FlowLayoutPanel()
             {
                 Location = new Point(20, 260),
-                Size = new Size(1200, 200),//どこまで表示するか
+                Size = new Size(this.ClientSize.Width - 40, 200), // ★ フォーム幅に合わせる
                 FlowDirection = FlowDirection.LeftToRight,
                 WrapContents = false,     //（スクロールするかしないか）
-                AutoScroll = true
+                AutoScroll = true,
+                BackColor = Color.LightGray, // ★ 表示確認用（後で消してOK）
+                Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Bottom
                 //間違ってなかったらここに画像追加（多分？）
             };
 
@@ -128,7 +134,6 @@ namespace Weather_Information_App
             //追加
             flowForecastPanel.Controls.Clear();
 
-
             if (string.IsNullOrWhiteSpace(cityOnly))
             {
                 label1.Text = "市区町村名または都道府県名を入力してください。";
@@ -138,6 +143,7 @@ namespace Weather_Information_App
             // 現在の天気
             WeatherResult current = await _service.GetWeatherAsync(cityOnly);
             label1.Text = current.Message;
+
             // 現在の天気アイコン（PerformSearch から移動）
             if (!string.IsNullOrEmpty(current.IconUrl))
             {
@@ -150,7 +156,7 @@ namespace Weather_Information_App
                         using (var img = Image.FromStream(ms))
                         {
                             // Stream を閉じても表示が安定するように Clone
-                            pictureBox1.Image = (Image)img.Clone();
+                            pictureBox1.Image = (Image)img.Clone(); // ★ 修正
                         }
                     }
                 }
@@ -164,20 +170,15 @@ namespace Weather_Information_App
                 pictureBox1.Image = null;
             }
 
-
             // 3時間ごとの予報
             var forecasts = await _service.GetHourlyForecastAsync(cityOnly);
-            /*listBoxForecast.Items.Clear();
-            foreach (var f in forecasts)
-            {
-                listBoxForecast.Items.Add(f.Message);
-            }*/
-            
 
+            // ★ 今の時間以降の予報だけにフィルター
+            DateTime now = DateTime.Now;
+            var upcomingForecasts = forecasts.Where(f => f.DateTime >= now).Take(8); // 直近8件だけ表示
 
-            foreach (var f in forecasts)
+            foreach (var f in upcomingForecasts)
             {
-                // APIから直接取り出した DateTime / Description / Temperature を使用
                 DateTime dt = f.DateTime;
                 string weather = f.Description;
                 string temp = $"{f.Temperature}℃";
@@ -193,7 +194,7 @@ namespace Weather_Information_App
 
                 PictureBox pbIcon = new PictureBox()
                 {
-                    Location = new Point(80, 10),   // 右上あたり
+                    Location = new Point(80, 10),
                     Size = new Size(48, 48),
                     SizeMode = PictureBoxSizeMode.Zoom
                 };
@@ -206,49 +207,26 @@ namespace Weather_Information_App
                         {
                             var bytes = await client.GetByteArrayAsync(f.IconUrl);
                             using (var ms = new MemoryStream(bytes))
+                            using (var img = Image.FromStream(ms))
                             {
-                                pbIcon.Image = Image.FromStream(ms);
+                                pbIcon.Image = (Image)img.Clone();
                             }
                         }
                     }
                     catch
                     {
-                        // 失敗しても何もしない（枠だけ表示）
+                        // 失敗しても何もしない
                     }
                 }
 
-
-                //日付ラベル
-                Label lblDate = new Label()
-                {
-                    Text = dt.ToString("yyyy/MM/dd"),
-                    Location = new Point(10, 10),
-                    AutoSize = true
-                };
-
-                //時刻ラベル
-                Label lblTime = new Label()
-                {
-                    Text = dt.ToString("HH:mm"),
-                    Location = new Point(10, 30),
-                    AutoSize = true
-                };
-                
-                //天気ラベル
-                Label lblWeather = new Label()
-                {
-                    Text = weather,
-                    Location = new Point(10, 50),
-                    AutoSize = true
-                };
-
-                //気温ラベル
-                Label lblTemp = new Label()
-                {
-                    Text = temp,
-                    Location = new Point(10, 70),
-                    AutoSize = true
-                };
+                // 日付ラベル
+                Label lblDate = new Label() { Text = dt.ToString("yyyy/MM/dd"), Location = new Point(10, 10), AutoSize = true };
+                // 時刻ラベル
+                Label lblTime = new Label() { Text = dt.ToString("HH:mm"), Location = new Point(10, 30), AutoSize = true };
+                // 天気ラベル
+                Label lblWeather = new Label() { Text = weather, Location = new Point(10, 50), AutoSize = true };
+                // 気温ラベル
+                Label lblTemp = new Label() { Text = temp, Location = new Point(10, 70), AutoSize = true };
 
                 card.Controls.Add(lblDate);
                 card.Controls.Add(lblTime);
@@ -258,10 +236,7 @@ namespace Weather_Information_App
 
                 flowForecastPanel.Controls.Add(card);
             }
-
-
         }
-
 
         // 検索（履歴に追加)
         private async Task PerformSearch(string city)
@@ -289,8 +264,6 @@ namespace Weather_Information_App
 
             //  最終更新時刻を表示 
             labelUpdateTime.Text = $"最終更新: {DateTime.Now:yyyy/MM/dd HH:mm:ss}";
-
-            
         }
 
         // ボタンクリック
