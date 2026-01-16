@@ -31,8 +31,7 @@ namespace Weather_Information_App
         {
             InitializeComponent();
 
-            // ★ フォームサイズを広げる（予報が見切れないように）
-            this.ClientSize = new Size(1300, 550);
+           
 
             pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox1.BackColor = Color.LightBlue; // 背景色を変えて見やすく
@@ -173,7 +172,7 @@ namespace Weather_Information_App
             // 3時間ごとの予報
             var forecasts = await _service.GetHourlyForecastAsync(cityOnly);
 
-            // ★ 今の時間以降の予報だけにフィルター
+            // 今の時間以降の予報だけにフィルター
             DateTime now = DateTime.Now;
             var upcomingForecasts = forecasts.Where(f => f.DateTime >= now).Take(8); // 直近8件だけ表示
 
