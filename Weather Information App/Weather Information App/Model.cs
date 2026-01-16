@@ -10,6 +10,7 @@ namespace Weather_Information_App
     {
         public class WeatherRequest
         {
+            //get=取得;set=設定
             public string CityName { get; set; }
         }
 

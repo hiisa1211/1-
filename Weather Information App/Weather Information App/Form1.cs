@@ -50,6 +50,7 @@ namespace Weather_Information_App
                 Left = label1.Left
             };
             this.Controls.Add(listBoxForecast);*/
+
             flowForecastPanel = new FlowLayoutPanel()
             {
                 Location = new Point(20, 260),
@@ -73,6 +74,7 @@ namespace Weather_Information_App
             string text = input.Trim();
             string matchedPref = null;
 
+            //foreach複数のデータを順番に処理
             foreach (var pref in prefectures)
             {
                 if (text.StartsWith(pref))
@@ -83,12 +85,14 @@ namespace Weather_Information_App
                 }
             }
 
+            //文字列分割
             var parts = text.Split(new[] { ' ', '　', '\t' }, StringSplitOptions.RemoveEmptyEntries);
             if (parts.Length > 0)
             {
                 return parts.Last();
             }
 
+            //partsが空だった時の処理
             if (!string.IsNullOrEmpty(matchedPref))
             {
                 return matchedPref;
@@ -97,7 +101,7 @@ namespace Weather_Information_App
             return text;
         }
 
-        // AutoComplete
+        // AutoComplete入力補完toって入力された場合tokyoと出てくる感じ
         private void SetupAutoComplete()
         {
             var source = new AutoCompleteStringCollection();
@@ -214,7 +218,7 @@ namespace Weather_Information_App
                 }
 
 
-
+                //日付ラベル
                 Label lblDate = new Label()
                 {
                     Text = dt.ToString("yyyy/MM/dd"),
@@ -222,13 +226,15 @@ namespace Weather_Information_App
                     AutoSize = true
                 };
 
+                //時刻ラベル
                 Label lblTime = new Label()
                 {
                     Text = dt.ToString("HH:mm"),
                     Location = new Point(10, 30),
                     AutoSize = true
                 };
-
+                
+                //天気ラベル
                 Label lblWeather = new Label()
                 {
                     Text = weather,
@@ -236,6 +242,7 @@ namespace Weather_Information_App
                     AutoSize = true
                 };
 
+                //気温ラベル
                 Label lblTemp = new Label()
                 {
                     Text = temp,

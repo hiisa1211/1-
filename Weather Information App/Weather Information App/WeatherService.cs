@@ -19,6 +19,7 @@ namespace Weather_Information_App
             {
                 using (var client = new HttpClient())
                 {
+                    //URL=場所=APIkey
                     string url =
                         $"http://api.openweathermap.org/data/2.5/weather?q={cityName}&appid={apiKey}&units=metric&lang=ja";
 
