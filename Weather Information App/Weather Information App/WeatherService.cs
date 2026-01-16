@@ -83,7 +83,9 @@ namespace Weather_Information_App
 
                     foreach (var item in data.list)
                     {
-                        DateTime dt = DateTime.Parse((string)item.dt_txt);
+                        DateTime dt = DateTime.Parse((string)item.dt_txt).ToLocalTime();
+
+                        //DateTime dt = DateTime.Parse((string)item.dt_txt);
                         string desc = item.weather[0].description;
                         double temp = item.main.temp;
 
@@ -145,9 +147,11 @@ namespace Weather_Information_App
 
                     foreach (var item in data.list)
                     {
-                        DateTime dt = DateTime.Parse((string)item.dt_txt);
+                        DateTime dt = DateTime.Parse((string)item.dt_txt).ToLocalTime();
 
-                        if (dt.Date == today)
+                        //DateTime dt = DateTime.Parse((string)item.dt_txt);
+
+                        if (dt.Date == DateTime.Today)
                         {
                             double temp = item.main.temp;
 
