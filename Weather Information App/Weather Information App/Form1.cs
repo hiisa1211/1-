@@ -13,7 +13,7 @@ namespace Weather_Information_App
     public partial class Form1 : Form
     {
         //WeatherService の生成
-        private readonly WeatherService _service;
+        private readonly WeatherService _service; 
 
         private readonly string[] prefectures = new[]
         {
@@ -31,7 +31,11 @@ namespace Weather_Information_App
         {
             InitializeComponent();
 
-           
+            // 初期表示（仮の値）
+            lblHighTemp.Text = "今日の最高: --℃";
+            lblLowTemp.Text = "今日の最低: --℃";
+            lblLastUpdate.Text = "最終更新: --/--/-- --:--:--";
+
 
             pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox1.BackColor = Color.LightBlue; // 背景色を変えて見やすく
@@ -172,6 +176,21 @@ namespace Weather_Information_App
             // 3時間ごとの予報
             var forecasts = await _service.GetHourlyForecastAsync(cityOnly);
 
+            DateTime today = DateTime.Today;
+
+            // 今日のデータだけ取り出す
+            var todays = forecasts.Where(f => f.DateTime.Date == today);
+
+
+            double maxTemp = forecasts.Max(f => f.Temperature);
+            double minTemp = forecasts.Min(f => f.Temperature);
+
+            lblHighTemp.Text = $"今日の最高: {maxTemp}℃";
+            lblLowTemp.Text = $"今日の最低: {minTemp}℃";
+            lblLastUpdate.Text = $"最終更新: {DateTime.Now:yyyy/MM/dd HH:mm:ss}";
+
+
+
             // 今の時間以降の予報だけにフィルター
             DateTime now = DateTime.Now;
             var upcomingForecasts = forecasts.Where(f => f.DateTime >= now).Take(8); // 直近8件だけ表示
@@ -258,11 +277,11 @@ namespace Weather_Information_App
             await SearchCity(cityOnly);
 
             // 今日の最高 / 最低気温
-            var (minTemp, maxTemp) = await _service.GetTodayMinMaxAsync(cityOnly);
-            labelMinMax.Text = $"今日の最高: {maxTemp:F1}℃ / 最低: {minTemp:F1}℃";
+            //var (minTemp, maxTemp) = await _service.GetTodayMinMaxAsync(cityOnly);
+            //labelMinMax.Text = $"今日の最高: {maxTemp:F1}℃ / 最低: {minTemp:F1}℃";
 
             //  最終更新時刻を表示 
-            labelUpdateTime.Text = $"最終更新: {DateTime.Now:yyyy/MM/dd HH:mm:ss}";
+            //labelUpdateTime.Text = $"最終更新: {DateTime.Now:yyyy/MM/dd HH:mm:ss}";
         }
 
         // ボタンクリック
@@ -294,6 +313,11 @@ namespace Weather_Information_App
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label3_Click(object sender, EventArgs e)
         {
 
         }
