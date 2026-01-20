@@ -12,9 +12,15 @@ namespace Weather_Information_App
 {
     public partial class Form1 : Form
     {
+<<<<<<< HEAD
         //WeatherService の生成
         private readonly WeatherService _service; 
+=======
+        // WeatherService の生成
+        private readonly WeatherService _service;
+>>>>>>> origin/main
 
+        // 都道府県リスト
         private readonly string[] prefectures = new[]
         {
             "北海道","青森県","岩手県","宮城県","秋田県","山形県","福島県",
@@ -27,53 +33,89 @@ namespace Weather_Information_App
             "福岡県","佐賀県","長崎県","熊本県","大分県","宮崎県","鹿児島県","沖縄県"
         };
 
+        // プレースホルダー用のテキスト
+        private const string PlaceholderText = "県または都市を入力";
+
         public Form1()
         {
             InitializeComponent();
 
+<<<<<<< HEAD
             // 初期表示（仮の値）
             lblHighTemp.Text = "今日の最高: --℃";
             lblLowTemp.Text = "今日の最低: --℃";
             lblLastUpdate.Text = "最終更新: --/--/-- --:--:--";
 
 
+=======
+            // PictureBox 設定
+>>>>>>> origin/main
             pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox1.BackColor = Color.LightBlue; // 背景色を変えて見やすく
+            pictureBox1.BackColor = Color.LightBlue;
 
             _service = new WeatherService();
 
+            // AutoComplete 設定
             SetupAutoComplete();
 
+            // TextBox イベント登録（Enter / Leave でプレースホルダー表示）
+            textBox1.Enter += TextBox1_Enter;
+            textBox1.Leave += TextBox1_Leave;
+
+            // KeyDown イベント（Enterで検索）
             textBox1.KeyDown += TextBox1_KeyDown;
+
+            // 履歴クリック
             listBoxHistory.SelectedIndexChanged += listBoxHistory_SelectedIndexChanged;
 
-            // ListBox をフォームに追加（3時間ごとの天気表示用）
-            /*listBoxForecast = new ListBox
-            {
-                Name = "listBoxForecast",
-                Width = 300,
-                Height = 200,
-                Top = label1.Bottom + 10,  // label1 の下に配置
-                Left = label1.Left
-            };
-            this.Controls.Add(listBoxForecast);*/
+            // 初期プレースホルダー表示
+            SetPlaceholder();
 
+            // FlowLayoutPanel（3時間ごとの予報用）
             flowForecastPanel = new FlowLayoutPanel()
             {
                 Location = new Point(20, 260),
-                Size = new Size(this.ClientSize.Width - 40, 200), // ★ フォーム幅に合わせる
+                Size = new Size(this.ClientSize.Width - 40, 200),
                 FlowDirection = FlowDirection.LeftToRight,
-                WrapContents = false,     //（スクロールするかしないか）
+                WrapContents = false,
                 AutoScroll = true,
-                BackColor = Color.LightGray, // ★ 表示確認用（後で消してOK）
+                BackColor = Color.LightGray,
                 Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Bottom
-                //間違ってなかったらここに画像追加（多分？）
             };
 
             this.Controls.Add(flowForecastPanel);
         }
 
-        //private ListBox listBoxForecast;
+        #region --- プレースホルダー処理 ---
+
+        private void SetPlaceholder()
+        {
+            textBox1.Text = PlaceholderText;
+            textBox1.ForeColor = Color.Gray;
+        }
+
+        private void TextBox1_Enter(object sender, EventArgs e)
+        {
+            // フォーカス時、プレースホルダーなら消す
+            if (textBox1.Text == PlaceholderText)
+            {
+                textBox1.Text = "";
+                textBox1.ForeColor = Color.Black;
+            }
+        }
+
+        private void TextBox1_Leave(object sender, EventArgs e)
+        {
+            // フォーカス外、空ならプレースホルダー再表示
+            if (string.IsNullOrWhiteSpace(textBox1.Text))
+            {
+                SetPlaceholder();
+            }
+        }
+
+        #endregion
+
+        #region --- 入力処理 / AutoComplete ---
 
         // 入力から市区町村名を抽出
         private string ExtractCityName(string input)
@@ -83,7 +125,6 @@ namespace Weather_Information_App
             string text = input.Trim();
             string matchedPref = null;
 
-            //foreach複数のデータを順番に処理
             foreach (var pref in prefectures)
             {
                 if (text.StartsWith(pref))
@@ -94,14 +135,12 @@ namespace Weather_Information_App
                 }
             }
 
-            //文字列分割
             var parts = text.Split(new[] { ' ', '　', '\t' }, StringSplitOptions.RemoveEmptyEntries);
             if (parts.Length > 0)
             {
                 return parts.Last();
             }
 
-            //partsが空だった時の処理
             if (!string.IsNullOrEmpty(matchedPref))
             {
                 return matchedPref;
@@ -110,7 +149,7 @@ namespace Weather_Information_App
             return text;
         }
 
-        // AutoComplete入力補完toって入力された場合tokyoと出てくる感じ
+        // AutoComplete入力補完
         private void SetupAutoComplete()
         {
             var source = new AutoCompleteStringCollection();
@@ -130,11 +169,13 @@ namespace Weather_Information_App
             textBox1.AutoCompleteCustomSource = source;
         }
 
-        // 履歴を使わず検索のみ
+        #endregion
+
+        #region --- 天気取得 / 表示 ---
+
         private async Task SearchCity(string city)
         {
             string cityOnly = ExtractCityName(city);
-            //追加
             flowForecastPanel.Controls.Clear();
 
             if (string.IsNullOrWhiteSpace(cityOnly))
@@ -147,7 +188,7 @@ namespace Weather_Information_App
             WeatherResult current = await _service.GetWeatherAsync(cityOnly);
             label1.Text = current.Message;
 
-            // 現在の天気アイコン（PerformSearch から移動）
+            // アイコン表示
             if (!string.IsNullOrEmpty(current.IconUrl))
             {
                 try
@@ -158,15 +199,11 @@ namespace Weather_Information_App
                         using (var ms = new MemoryStream(iconBytes))
                         using (var img = Image.FromStream(ms))
                         {
-                            // Stream を閉じても表示が安定するように Clone
-                            pictureBox1.Image = (Image)img.Clone(); // ★ 修正
+                            pictureBox1.Image = (Image)img.Clone();
                         }
                     }
                 }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"画像取得エラー: {ex.Message}");
-                }
+                catch { pictureBox1.Image = null; }
             }
             else
             {
@@ -175,6 +212,7 @@ namespace Weather_Information_App
 
             // 3時間ごとの予報
             var forecasts = await _service.GetHourlyForecastAsync(cityOnly);
+<<<<<<< HEAD
 
             DateTime today = DateTime.Today;
 
@@ -192,15 +230,14 @@ namespace Weather_Information_App
 
 
             // 今の時間以降の予報だけにフィルター
+=======
+>>>>>>> origin/main
             DateTime now = DateTime.Now;
-            var upcomingForecasts = forecasts.Where(f => f.DateTime >= now).Take(8); // 直近8件だけ表示
+            var upcomingForecasts = forecasts.Where(f => f.DateTime >= now).Take(8);
 
             foreach (var f in upcomingForecasts)
             {
                 DateTime dt = f.DateTime;
-                string weather = f.Description;
-                string temp = $"{f.Temperature}℃";
-
                 Panel card = new Panel()
                 {
                     Width = 140,
@@ -231,36 +268,22 @@ namespace Weather_Information_App
                             }
                         }
                     }
-                    catch
-                    {
-                        // 失敗しても何もしない
-                    }
+                    catch { }
                 }
 
-                // 日付ラベル
-                Label lblDate = new Label() { Text = dt.ToString("yyyy/MM/dd"), Location = new Point(10, 10), AutoSize = true };
-                // 時刻ラベル
-                Label lblTime = new Label() { Text = dt.ToString("HH:mm"), Location = new Point(10, 30), AutoSize = true };
-                // 天気ラベル
-                Label lblWeather = new Label() { Text = weather, Location = new Point(10, 50), AutoSize = true };
-                // 気温ラベル
-                Label lblTemp = new Label() { Text = temp, Location = new Point(10, 70), AutoSize = true };
-
-                card.Controls.Add(lblDate);
-                card.Controls.Add(lblTime);
-                card.Controls.Add(lblWeather);
-                card.Controls.Add(lblTemp);
+                card.Controls.Add(new Label() { Text = dt.ToString("yyyy/MM/dd"), Location = new Point(10, 10), AutoSize = true });
+                card.Controls.Add(new Label() { Text = dt.ToString("HH:mm"), Location = new Point(10, 30), AutoSize = true });
+                card.Controls.Add(new Label() { Text = f.Description, Location = new Point(10, 50), AutoSize = true });
+                card.Controls.Add(new Label() { Text = $"{f.Temperature}℃", Location = new Point(10, 70), AutoSize = true });
                 card.Controls.Add(pbIcon);
 
                 flowForecastPanel.Controls.Add(card);
             }
         }
 
-        // 検索（履歴に追加)
         private async Task PerformSearch(string city)
         {
             string cityOnly = ExtractCityName(city);
-
             if (string.IsNullOrWhiteSpace(cityOnly))
             {
                 label1.Text = "市区町村名または都道府県名を入力してください。";
@@ -273,24 +296,35 @@ namespace Weather_Information_App
 
             listBoxHistory.Items.Insert(0, cityOnly);
 
-            // 天気取得（現在＋予報）
+            // 天気取得
             await SearchCity(cityOnly);
 
+<<<<<<< HEAD
             // 今日の最高 / 最低気温
             //var (minTemp, maxTemp) = await _service.GetTodayMinMaxAsync(cityOnly);
             //labelMinMax.Text = $"今日の最高: {maxTemp:F1}℃ / 最低: {minTemp:F1}℃";
 
             //  最終更新時刻を表示 
             //labelUpdateTime.Text = $"最終更新: {DateTime.Now:yyyy/MM/dd HH:mm:ss}";
+=======
+            // 今日の最高/最低
+            var (minTemp, maxTemp) = await _service.GetTodayMinMaxAsync(cityOnly);
+            labelMinMax.Text = $"今日の最高: {maxTemp:F1}℃ / 最低: {minTemp:F1}℃";
+
+            // 更新時間
+            labelUpdateTime.Text = $"最終更新: {DateTime.Now:yyyy/MM/dd HH:mm:ss}";
+>>>>>>> origin/main
         }
 
-        // ボタンクリック
+        #endregion
+
+        #region --- イベントハンドラ ---
+
         private async void button1_Click(object sender, EventArgs e)
         {
             await PerformSearch(textBox1.Text);
         }
 
-        // Enterキー押下
         private async void TextBox1_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
@@ -301,7 +335,6 @@ namespace Weather_Information_App
             }
         }
 
-        // 履歴クリック
         private async void listBoxHistory_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (listBoxHistory.SelectedItem == null) return;
@@ -314,12 +347,16 @@ namespace Weather_Information_App
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
-
+            // 画像クリック時の処理（必要に応じて）
         }
 
+<<<<<<< HEAD
         private void label3_Click(object sender, EventArgs e)
         {
 
         }
+=======
+        #endregion
+>>>>>>> origin/main
     }
 }
