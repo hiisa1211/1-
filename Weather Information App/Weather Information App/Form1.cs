@@ -12,13 +12,10 @@ namespace Weather_Information_App
 {
     public partial class Form1 : Form
     {
-<<<<<<< HEAD
-        //WeatherService の生成
-        private readonly WeatherService _service; 
-=======
+
         // WeatherService の生成
         private readonly WeatherService _service;
->>>>>>> origin/main
+
 
         // 都道府県リスト
         private readonly string[] prefectures = new[]
@@ -40,16 +37,16 @@ namespace Weather_Information_App
         {
             InitializeComponent();
 
-<<<<<<< HEAD
+
             // 初期表示（仮の値）
             lblHighTemp.Text = "今日の最高: --℃";
             lblLowTemp.Text = "今日の最低: --℃";
             lblLastUpdate.Text = "最終更新: --/--/-- --:--:--";
 
 
-=======
+
             // PictureBox 設定
->>>>>>> origin/main
+
             pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox1.BackColor = Color.LightBlue;
 
@@ -86,6 +83,7 @@ namespace Weather_Information_App
             this.Controls.Add(flowForecastPanel);
         }
 
+        
         #region --- プレースホルダー処理 ---
 
         private void SetPlaceholder()
@@ -212,7 +210,7 @@ namespace Weather_Information_App
 
             // 3時間ごとの予報
             var forecasts = await _service.GetHourlyForecastAsync(cityOnly);
-<<<<<<< HEAD
+
 
             DateTime today = DateTime.Today;
 
@@ -230,8 +228,6 @@ namespace Weather_Information_App
 
 
             // 今の時間以降の予報だけにフィルター
-=======
->>>>>>> origin/main
             DateTime now = DateTime.Now;
             var upcomingForecasts = forecasts.Where(f => f.DateTime >= now).Take(8);
 
@@ -299,21 +295,15 @@ namespace Weather_Information_App
             // 天気取得
             await SearchCity(cityOnly);
 
-<<<<<<< HEAD
+
             // 今日の最高 / 最低気温
             //var (minTemp, maxTemp) = await _service.GetTodayMinMaxAsync(cityOnly);
             //labelMinMax.Text = $"今日の最高: {maxTemp:F1}℃ / 最低: {minTemp:F1}℃";
 
             //  最終更新時刻を表示 
             //labelUpdateTime.Text = $"最終更新: {DateTime.Now:yyyy/MM/dd HH:mm:ss}";
-=======
-            // 今日の最高/最低
-            var (minTemp, maxTemp) = await _service.GetTodayMinMaxAsync(cityOnly);
-            labelMinMax.Text = $"今日の最高: {maxTemp:F1}℃ / 最低: {minTemp:F1}℃";
 
-            // 更新時間
-            labelUpdateTime.Text = $"最終更新: {DateTime.Now:yyyy/MM/dd HH:mm:ss}";
->>>>>>> origin/main
+            
         }
 
         #endregion
@@ -350,13 +340,12 @@ namespace Weather_Information_App
             // 画像クリック時の処理（必要に応じて）
         }
 
-<<<<<<< HEAD
+
         private void label3_Click(object sender, EventArgs e)
         {
 
         }
-=======
+
         #endregion
->>>>>>> origin/main
     }
 }
