@@ -119,6 +119,7 @@ namespace Weather_Information_App
         private string ExtractCityName(string input)
         {
             if (string.IsNullOrWhiteSpace(input)) return "";
+            if (input == "県または都市を入力") return"";
 
             string text = input.Trim();
             string matchedPref = null;
@@ -193,7 +194,7 @@ namespace Weather_Information_App
                 {
                     using (var client = new HttpClient())
                     {
-                        var iconBytes = await client.GetByteArrayAsync(current.IconUrl);
+                        var iconBytes = await client.GetByteArrayAsync(current.IconUrl); 
                         using (var ms = new MemoryStream(iconBytes))
                         using (var img = Image.FromStream(ms))
                         {
@@ -328,6 +329,7 @@ namespace Weather_Information_App
         private async void listBoxHistory_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (listBoxHistory.SelectedItem == null) return;
+            
 
             string selectedCity = listBoxHistory.SelectedItem.ToString();
             textBox1.Text = selectedCity;
